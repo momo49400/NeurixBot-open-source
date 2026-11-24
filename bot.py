@@ -2703,6 +2703,16 @@ async def on_ready():
         print("🛡️ Restauration des sessions Staff Security...", flush=True)
         await resume_staff_channel_sessions()
 
+        if BOT_OWNER_ID:
+            try:
+                user = await bot.fetch_user(BOT_OWNER_ID)
+                await user.send("🟢 NeurixBot est maintenant en ligne !")
+            except discord.HTTPException as exc:
+                print(
+                    f"⚠️ Notification de démarrage impossible : {type(exc).__name__}: {exc}",
+                    flush=True,
+                )
+
         _startup_completed = True
         print("✅ Bot prêt.", flush=True)
     except Exception as exc:
