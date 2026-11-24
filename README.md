@@ -1,72 +1,105 @@
 # NeurixBot — Open Source
 
-NeurixBot is a self-hosted Discord bot foundation. This repository contains the public core only; private infrastructure and operational integrations are intentionally not included.
+NeurixBot is a self-hosted Discord bot built with Python and discord.py. This edition keeps the main bot commands, moderation tools, giveaways, staff security controls, language settings and the support ticket system.
 
-## Included
+## Included features
 
-- Discord connection using discord.py
-- Slash commands: /ping, /about, and optional /ask
-- Optional OpenAI integration
-- Environment-based configuration
-- Basic logging and startup validation
+- Discord slash commands and classic `!` prefix commands
+- Ping and bot status
+- Moderation: kick, ban, unban, timeout and untimeout
+- Giveaways: create, cancel, end, reroll and inspect
+- Dynamic server roles for joins, boosts and giveaway winners
+- Staff authentication and role-based staff controls
+- French / English server language setting
+- Optional OpenAI-powered `!ask` command
+- Support tickets with staff claiming, closure confirmation and private transcript archiving
 
-## Not included
-
-The following private/optional services are intentionally left out:
-
-- DevOps monitoring and deployment automation
-- Private GitHub tracker
-- Private dashboard and internal alerts
-- Private Roblox tracking configuration and state
-- Internal staff/security workflows and production data
-
-The services directory documents extension points only. It does not connect to private Neurix infrastructure.
+Tracker integrations and DevOps commands are not included in this public edition. The private dashboard that depended on those integrations is also omitted. The ticket system remains included.
 
 ## Requirements
 
-- Python 3.10+
+- Python 3.10 or newer
 - A Discord application and bot token
-- An OpenAI API key only if you want to use /ask
+- An OpenAI API key only if you want to enable `!ask`
 
 ## Installation
 
 1. Clone this repository.
-2. Create and activate a virtual environment.
-3. Install dependencies:
+2. Create a virtual environment:
 
-   Windows:
+   ```bash
    python -m venv .venv
-   .venv\\Scripts\\activate
+   ```
 
-   macOS / Linux:
-   python -m venv .venv
+3. Activate it:
+
+   **Windows**
+   ```powershell
+   .venv\Scripts\Activate.ps1
+   ```
+
+   **macOS / Linux**
+   ```bash
    source .venv/bin/activate
+   ```
 
-   Then:
+4. Install dependencies:
+
+   ```bash
    pip install -r requirements.txt
+   ```
 
-4. Copy .env.example to .env.
-5. Set DISCORD_TOKEN. Set OPENAI_API_KEY if you want the AI command.
-6. Enable application commands in the Discord Developer Portal and invite the bot with the bot and applications.commands scopes.
-7. Start the bot with: python bot.py
+5. Copy `.env.example` to `.env` and fill in the values you need.
+6. In the Discord Developer Portal, enable **Server Members Intent** and **Message Content Intent**.
+7. Invite the bot with the `bot` and `applications.commands` scopes, then start it:
 
-Slash commands are synchronized when the bot starts. Discord may take a short time to display them.
+   ```bash
+   python bot.py
+   ```
+
+Slash commands are synchronized when the bot starts. Discord can take a short time to display them.
+
+## Main commands
+
+| Command | Purpose |
+|---|---|
+| `/ping` and `!ping` | Check bot response |
+| `/status` and `!status` | Show latency, uptime and version |
+| `/ticket ouvrir` | Open a private support ticket |
+| `/ticket fermer` | Request ticket closure |
+| `/ticket panel` | Publish or update the support panel |
+| `/steplanguage` | Set the server language to French or English |
+| `/giveaway` | Manage giveaways |
+| `/staff` | Staff authentication and permissions |
+| `!ask <question>` | Ask the optional OpenAI assistant |
+
+The bot also includes moderation and dynamic-role slash commands. Discord displays their descriptions and parameters in the command picker.
 
 ## Configuration
 
 | Variable | Required | Description |
 |---|---|---|
-| DISCORD_TOKEN | Yes | Discord bot token |
-| OPENAI_API_KEY | No | Enables /ask |
-| OPENAI_MODEL | No | OpenAI model name; defaults to gpt-4o-mini |
-| BOT_OWNER_ID | No | Reserved for future owner-only extensions |
+| `DISCORD_TOKEN` | Yes | Discord bot token |
+| `BOT_OWNER_ID` | Recommended | Discord user ID of the bot owner |
+| `OPENAI_API_KEY` | No | Enables `!ask` |
+| `OPENAI_MODEL` | No | Model used by `!ask`; defaults to `gpt-4o-mini` |
+| `TICKET_ENABLED` | No | Set to `true` to enable tickets |
+| `TICKET_CATEGORY_ID` | For tickets | Category where private tickets are created |
+| `TICKET_STAFF_CHANNEL_ID` | For tickets | Staff notification channel |
+| `TICKET_STAFF_ROLE_ID` | For tickets | Role allowed to claim tickets |
+| `TICKET_STATE_PATH` | No | Ticket state file path |
+| `TICKET_ARCHIVE_CHANNEL_ID` | For ticket closure | Private staff-only transcript archive |
+| `GUILD_LANGUAGE_DB` | No | SQLite database path for server language settings |
 
-Never commit your real .env file, bot token, API key, or server-specific private data. If a credential is accidentally published, revoke and rotate it immediately.
+To enable tickets, set `TICKET_ENABLED=true` and configure the category, staff channel and staff role IDs. For transcript archiving, configure a private archive channel hidden from `@everyone` and visible to the staff role.
 
-## Development
+## Security
 
-Run the bot locally with a test Discord server. Keep secrets in your local .env file and add tests for new commands or services. Optional integrations should be isolated behind their own modules and disabled by default.
+- Never commit `.env`, bot tokens, API keys, server IDs or private production state.
+- The repository includes `.env.example`, not a real `.env` file.
+- Keep the transcript archive private and grant access only to trusted staff.
+- If a credential is accidentally published, revoke and rotate it immediately.
 
 ## License
 
-MIT. See LICENSE.
+MIT. See [LICENSE](LICENSE).
