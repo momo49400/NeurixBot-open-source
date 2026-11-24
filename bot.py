@@ -1000,14 +1000,6 @@ except ZoneInfoNotFoundError:
     PARIS_TIMEZONE = ParisTimezoneFallback()
 
 
-        return {}
-
-    try:
-        with open(DYNAMIC_ROLES_PATH, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except (json.JSONDecodeError, OSError):
-        return {}
-
 def load_dynamic_roles():
     if not os.path.exists(DYNAMIC_ROLES_PATH):
         return {}
