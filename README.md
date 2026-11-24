@@ -90,7 +90,7 @@ For transcript archiving, set `TICKET_ARCHIVE_CHANNEL_ID` to a staff-only channe
 
 ### Optional online notification
 
-The bot does not send a startup DM by default. To notify the owner when startup finishes, add this snippet inside `on_ready()`, after the giveaway and Staff Security restoration steps:
+The bot already sends the owner a direct message when startup finishes if `BOT_OWNER_ID` is configured. If you want to add the same notification to another version of the bot, place this snippet inside `on_ready()`, after the giveaway and Staff Security restoration steps:
 
 ```python
 if BOT_OWNER_ID:
