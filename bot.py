@@ -2010,8 +2010,7 @@ async def status_slash(interaction: discord.Interaction):
     embed.add_field(name="🌐 Servers", value=f"`{len(bot.guilds)}`", inline=False)
     embed.set_footer(text="🟢 NeurixBot is operational")
 
-    await interaction.response.send_message(embed=embed) 
-    await interaction.response.send_message("\n".join(lines))
+    await interaction.response.send_message(embed=embed)
 
 
 def _staff_role_gate(interaction, required_level="Staff"):
