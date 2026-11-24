@@ -59,6 +59,19 @@ Tracker integrations and DevOps commands are not included in this public edition
 
 Slash commands are synchronized when the bot starts. Discord can take a short time to display them.
 
+
+### Optional online notification
+
+To send the owner a direct message when NeurixBot finishes starting, add this inside `on_ready()`, after the startup restoration steps:
+
+```python
+if BOT_OWNER_ID:
+    user = await bot.fetch_user(BOT_OWNER_ID)
+    await user.send("🟢 NeurixBot est maintenant en ligne !")
+```
+
+Set `BOT_OWNER_ID` in your `.env` to your Discord user ID. This notification is optional; the bot can run without it. Make sure the owner can receive direct messages from the bot.
+
 ## Main commands
 
 | Command | Purpose |
