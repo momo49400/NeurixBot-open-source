@@ -1000,14 +1000,6 @@ except ZoneInfoNotFoundError:
     PARIS_TIMEZONE = ParisTimezoneFallback()
 
 
-        return {}
-
-    try:
-        with open(DYNAMIC_ROLES_PATH, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except (json.JSONDecodeError, OSError):
-        return {}
-
 def load_dynamic_roles():
     if not os.path.exists(DYNAMIC_ROLES_PATH):
         return {}
@@ -2010,8 +2002,7 @@ async def status_slash(interaction: discord.Interaction):
     embed.add_field(name="🌐 Servers", value=f"`{len(bot.guilds)}`", inline=False)
     embed.set_footer(text="🟢 NeurixBot is operational")
 
-    await interaction.response.send_message(embed=embed) 
-    await interaction.response.send_message("\n".join(lines))
+    await interaction.response.send_message(embed=embed)
 
 
 def _staff_role_gate(interaction, required_level="Staff"):
